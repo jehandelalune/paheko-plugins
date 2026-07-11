@@ -1,0 +1,22 @@
+# Composer vendor directory
+/vendor/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Test coverage reports
+.coverage
+phpunit.xml
+
+# Cache
+*.cache

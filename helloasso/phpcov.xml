@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpcov>
+    <filter>
+        <!-- Inclure uniquement le code du plugin helloasso -->
+        <directory suffix=".php">./lib</directory>
+        <directory suffix=".php">./lib/Entities</directory>
+        
+        <!-- Exclure les fichiers de test et de configuration -->
+        <exclude>
+            <directory suffix=".php">./tests</directory>
+            <directory suffix=".php">./admin</directory>
+            <directory suffix=".php">./templates</directory>
+            <file>install.php</file>
+            <file>uninstall.php</file>
+            <file>upgrade.php</file>
+            <file>schema.sql</file>
+            <file>uninstall.sql</file>
+        </exclude>
+    </filter>
+    
+    <!-- Répertoire de sortie -->
+    <report>
+        <directory>coverage</directory>
+    </report>
+</phpcov>

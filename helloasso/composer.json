@@ -1,0 +1,5 @@
+{
+    "require-dev": {
+        "phpunit/phpcov": "^13.0"
+    }
+}
