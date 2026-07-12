@@ -220,11 +220,14 @@ class HelloAsso
 
 			// In case we merge first and last names in the same field
 			if ($map['firstName'] === $map['lastName']) {
-				$where = sprintf('us.%s = ? OR us.%1$s = ? OR us.%1$s = ?', $db->quoteIdentifier($map['firstName']));
+				// Normaliser les noms en supprimant les espaces superflus
+				$first_name = trim($first_name);
+				$last_name = trim($last_name);
+				$where = sprintf('us.%s = ? COLLATE U_NOCASE OR us.%1$s = ? COLLATE U_NOCASE OR us.%1$s = ? COLLATE U_NOCASE', $db->quoteIdentifier($map['firstName']));
 
-				$params[] = $first_name . ' ' . $last_name;
-				$params[] = $last_name . ' ' . $first_name;
-				$params[] = $last_name;
+				$params[] = trim($first_name . ' ' . $last_name);
+				$params[] = trim($last_name . ' ' . $first_name);
+				$params[] = trim($last_name);
 			}
 			else {
 				$where = sprintf('us.%s = ? AND us.%s = ? COLLATE U_NOCASE',
