@@ -89,6 +89,7 @@ function create_test_order(
         'payments' => [],
         'items' => []
     ]));
+    
     $order->save();
     return $order;
 }
@@ -160,9 +161,22 @@ function setup_helloasso_config(): HelloAsso
     $config->donation_account_code = '860';
     $config->provider_account_code = '530';
     
+    // Configuration du mapping des champs pour createUser
+    $config->fields_map = (object)[
+        'firstName' => 'nom',
+        'lastName' => 'nom',
+        'email' => 'email'
+    ];
+    $config->merge_names_order = HelloAsso::MERGE_NAMES_FIRST_LAST;
+    $config->match_email_field = false;
+    
     // Utiliser reflection pour accéder à la propriété protégée
     $config_property = $ha->getProperty('config');
     $config_property->setValue($instance, $config);
+    
+    // Configurer aussi le singleton pour que HelloAsso::getInstance() retourne notre instance mock
+    $instance_property = $ha->getProperty('_instance');
+    $instance_property->setValue(null, $instance);
     
     return $instance;
 }

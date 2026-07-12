@@ -13,7 +13,8 @@ helloasso/tests/
     ├── 01_static.php      # Tests des méthodes statiques
     ├── 02_instance.php    # Tests des méthodes d'instance
     ├── 03_complex.php     # Tests des méthodes complexes
-    └── 04_edge_cases.php  # Tests des cas limites
+    ├── 04_edge_cases.php  # Tests des cas limites
+    └── 05_import.php     # Tests de l'import de données
 ```
 
 ## Prérequis
@@ -33,11 +34,40 @@ php tests/run.php
 
 ### Un test spécifique
 
+#### Exécuter un fichier de test complet
+
 ```bash
 php tests/run.php 01_static.php
 php tests/run.php 02_instance.php
 php tests/run.php 03_complex.php
 php tests/run.php 04_edge_cases.php
+php tests/run.php 05_import.php
+```
+
+#### Exécuter une seule fonction de test
+
+Chaque fichier de test accepte un argument optionnel pour exécuter une seule méthode de test spécifique :
+
+```bash
+# Syntaxe : php tests/Order/[fichier].php [nom_du_test]
+php tests/Order/01_static.php test_getStatus_full_payment
+php tests/Order/02_instance.php test_form_cache
+php tests/Order/03_complex.php test_syncOrder_creation
+php tests/Order/04_edge_cases.php test_getStatus_amount_without_total
+php tests/Order/05_import.php test_importData_complete_import
+```
+
+Pour connaître la liste des tests disponibles dans un fichier :
+
+```bash
+# Exécuter avec un nom de test inexistant pour lister les tests disponibles
+php tests/Order/01_static.php test_inexistant
+```
+
+Exemple de sortie :
+```
+Erreur: Test 'test_inexistant' introuvable
+Tests disponibles: test_getStatus_full_payment, test_getStatus_partial_payment, test_getStatus_no_payment, test_getStatus_zero_amount, test_getStatus_multiple_payments, test_getStatus_overpayment, test_get, test_transform, test_transform_minimal_data, test_list
 ```
 
 ## Couverture de code (Code Coverage)
@@ -135,6 +165,18 @@ Le fichier `phpcov.xml` à la racine du plugin contient la configuration du filt
 - `Order::hasAllUsers()` avec différentes configurations
 - `Order::hasAllSubscriptions()` avec différentes configurations
 - `Order::isSynced()` avec différents statuts
+
+### 05_import.php
+- `Order::importData()` - import complet avec création de transaction
+- `Order::importData()` - idempotence (2e appel ne duplique pas)
+- `Order::importData()` - sans creation d'utilisateurs
+- `Order::importData()` - creation de transaction seulement
+- `Order::importData()` - sans year, pas de transaction
+- `Order::importData()` - sans creation d'abonnements
+- `Order::importData()` - Montant déséquilibré
+- `Order::importData()` - avec items Membership et Donation (payeur Dupont)
+- `Order::importData()` - avec items Membership et Donation (payeur Durand)
+- `Order::importTransaction()` - wrapper pour la creation de transaction
 
 ## Architecture des tests
 
